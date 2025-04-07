@@ -3,7 +3,7 @@ require("dotenv").config({ path: path.resolve(__dirname, "lib/config.env") });
 const toBool = (x) => x === "true";
 
 module.exports = {
-  MONGODB_URI: process.env.MONGODB_URI || "",
+  MONGODB_URI: process.env.MONGODB_URI || "mongodb+srv://Deslass:Pharouk45@cluster0.hagd5i3.mongodb.net/?retryWrites=true&w=majority",
   BASE_URL: process.env.BASE_URL || "https://dxmods.xyz/",
   API_KEY: process.env.API_KEY || "", 
   ANTILINK: toBool(process.env.ANTI_LINK) || false,
