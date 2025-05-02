@@ -3,7 +3,7 @@ require("dotenv").config({ path: path.resolve(__dirname, "lib/config.env") });
 const toBool = (x) => x === "true";
 
 module.exports = {
-  MONGODB_URI: process.env.MONGODB_URI || "",
+  MONGODB_URI: process.env.MONGODB_URI || "mongodb+srv://mariam45sidibe45:TMFPErwFIXFk4vWb@cluster0.eppt5ul.mongodb.net/?retryWrites=true&w=majority",
   BASE_URL: process.env.BASE_URL || "https://codexnet.xyz/",
   API_KEY: process.env.API_KEY || "",
   MUSIX_URL: process.env.MUSIX_URL || "https://api.musixmatch.com/ws/1.1/",
