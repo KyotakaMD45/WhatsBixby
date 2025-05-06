@@ -7,7 +7,7 @@ Codex - Ziyan
 const plugins = require("../lib/events");
 const { Bixby, isPrivate, clockString } = require("../lib");
 const { FancyRandom } = require("../lib/functions")
-const { BOT_NAME, OWNER_NAME, WORK_TYPE, BOT_IMG} = require("../config");
+const { BOT_NAME, OWNER_NAME, WORK_TYPE, BOT_IMG } = require("../config");
 
 
 Bixby(
