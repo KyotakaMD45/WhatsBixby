@@ -30,18 +30,16 @@ Bixby(
             const cmdName = cmdNameMatch ? cmdNameMatch[1] : "Unknown";
             let mess = `\`\`\`Command: ${message.prefix}${cmdName}
 Description: ${i.desc}\`\`\``;
-        return await message.client.sendMessage(message.jid, {text: mess});
-
+            return await message.client.sendMessage(message.jid, {text: mess});
           }
         }
-        
       } else {
-      let { prefix } = message;
-      const stars = ['☼︎','★','✦','✬','⁂','✢','✣','✥','✲','⌤','⇵','⟺','⍩','∞','⍙','⌭','⌮','〶','㊋'];
+        let { prefix } = message;
+        const stars = ['☼︎','★','✦','✬','⁂','✢','✣','✥','✲','⌤','⇵','⟺','⍩','∞','⍙','⌭','⌮','〶','㊋'];
         const star = stars[Math.floor(Math.random()*stars.length)];
         let [date, time] = new Date()
-        .toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })
-        .split(",");
+          .toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })
+          .split(",");
         let menu = `╭═══〘 ${BOT_NAME} 〙═══⊷❍
 ┃${star}╭──────────────
 ┃${star}│
@@ -59,62 +57,59 @@ Description: ${i.desc}\`\`\``;
 ┃${star}│ 
 ┃${star}╰───────────────
 ╰══════════════════⊷❍`;
-      let cmnd = [];
-      let cmd;
-      let category = [];
-      plugins.commands.map((command, num) => {
-        if (command.pattern) {
-          cmd = command.pattern
-            .toString()
-            .match(/(\W*)([A-Za-züşiğ öç1234567890]*)/)[2];
-        }
-
-        if (!command.dontAddCommandList && cmd !== undefined) {
-          let type;
-          if (!command.type) {
-            type = "misc";
-          } else {
-            type = command.type.toLowerCase();
+        let cmnd = [];
+        let cmd;
+        let category = [];
+        plugins.commands.map((command, num) => {
+          if (command.pattern) {
+            cmd = command.pattern
+              .toString()
+              .match(/(\W*)([A-Za-züşiğ öç1234567890]*)/)[2];
           }
 
-          cmnd.push({ cmd, type: type });
+          if (!command.dontAddCommandList && cmd !== undefined) {
+            let type;
+            if (!command.type) {
+              type = "misc";
+            } else {
+              type = command.type.toLowerCase();
+            }
 
-          if (!category.includes(type)) category.push(type);
-        }
-      });
-      cmnd.sort();
-      category.sort().forEach((cmmd) => {
-        menu += `
+            cmnd.push({ cmd, type: type });
+
+            if (!category.includes(type)) category.push(type);
+          }
+        });
+        cmnd.sort();
+        category.sort().forEach((cmmd) => {
+          menu += `
 ╭════〘 ${cmmd} 〙════⊷❍\n┃${star}╭─────────────────
 ┃${star}│ `;
-        let comad = cmnd.filter(({ type }) => type == cmmd);
-        comad.forEach(({ cmd }, num) => {
-          menu += `\n┃${star}│ ${cmd.trim()}`;
-        });
-        menu += `\n┃${star}╰─────────────────
+          let comad = cmnd.filter(({ type }) => type == cmmd);
+          comad.forEach(({ cmd }, num) => {
+            menu += `\n┃${star}│ ${cmd.trim()}`;
+          });
+          menu += `\n┃${star}╰─────────────────
 ╰══════════════════⊷❍`;
-      });
+        });
 
-      menu += `\n`;
-      //menu += `_🔖Send ${prefix}menu <command name> to get detailed information of specific command._\n*📍Eg:* _${prefix}menu plugin_`;
-      let fin = await menu.toUpperCase()
-      const randomFont = FancyRandom();
-      return await message.client.sendMessage(
-        message.jid,
-        {
-          image: { url: BOT_IMG },
-          caption: randomFont(fin),
-        { quoted: message }
-      );
-
+        menu += `\n`;
+        let fin = menu.toUpperCase();
+        const randomFont = FancyRandom();
+        return await message.client.sendMessage(
+          message.jid,
+          {
+            image: { url: BOT_IMG },
+            caption: randomFont(fin)
+          },
+          { quoted: message }
+        );
+      }
+    } catch (error) {
+      console.error("[Error]:", error);
     }
-  } catch (error) {
-    console.error("[Error]:", error);
-  }
   }
 );
-
-
 
 Bixby(
   {
@@ -125,34 +120,34 @@ Bixby(
     dontAddCommandList: true,
   },
   async (message, match, { prefix }) => {
-    try{
-    let menu = `╭────────────────╮
+    try {
+      let menu = `╭────────────────╮
     ＷＨＡＴＳ ＢＩＸＢＹ
 ╰────────────────╯
 ╭────────────────
-`
-    let cmnd = [];
-    let cmd, desc;
-    plugins.commands.map((command) => {
-      if (command.pattern) {
-        cmd = command.pattern.toString().split(/\W+/)[1];
-      }
-      desc = command.desc || false;
+`;
+      let cmnd = [];
+      let cmd, desc;
+      plugins.commands.map((command) => {
+        if (command.pattern) {
+          cmd = command.pattern.toString().split(/\W+/)[1];
+        }
+        desc = command.desc || false;
 
-      if (!command.dontAddCommandList && cmd !== undefined) {
-        cmnd.push({ cmd, desc });
-      }
-    });
-    cmnd.sort();
-    cmnd.forEach(({ cmd, desc }, num) => {
-      menu += `│ \`\`\`${cmd}\`\`\`\n`;
-    });
-    menu += `╰────────────────`
-    let fin = await menu.toUpperCase();
-    const randomFont = FancyRandom(); // Get a random font function
-    return await message.client.sendMessage(message.jid, { text: randomFont(fin) });
-  } catch (error) {
-    console.error("[Error]:", error);
-  }
+        if (!command.dontAddCommandList && cmd !== undefined) {
+          cmnd.push({ cmd, desc });
+        }
+      });
+      cmnd.sort();
+      cmnd.forEach(({ cmd, desc }, num) => {
+        menu += `│ \`\`\`${cmd}\`\`\`\n`;
+      });
+      menu += `╰────────────────`;
+      let fin = menu.toUpperCase();
+      const randomFont = FancyRandom();
+      return await message.client.sendMessage(message.jid, { text: randomFont(fin) });
+    } catch (error) {
+      console.error("[Error]:", error);
+    }
   }
 );
