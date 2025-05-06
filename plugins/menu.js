@@ -99,7 +99,13 @@ Description: ${i.desc}\`\`\``;
       //menu += `_🔖Send ${prefix}menu <command name> to get detailed information of specific command._\n*📍Eg:* _${prefix}menu plugin_`;
       let fin = await menu.toUpperCase()
       const randomFont = FancyRandom();
-      return await message.client.sendMessage(message.jid, {text: randomFont(fin)});
+      return await message.client.sendMessage(
+        message.jid,
+        {
+          image: { url: BOT_IMG },
+          caption: randomFont(fin),
+        { quoted: message }
+      );
 
     }
   } catch (error) {
