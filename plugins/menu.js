@@ -42,6 +42,7 @@ Description: ${i.desc}\`\`\``;
 ┃${star}╭──────────────
 ┃${star}│ time : ${time}
 |${star}| date : ${date}
+|${star}| timezone : ${timezone}
 ┃${star}│ owner : ${OWNER_NAME}
 ┃${star}│ user : ${message.pushName}
 ┃${star}│ mode : ${WORK_TYPE}
