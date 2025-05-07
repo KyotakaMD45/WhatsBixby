@@ -30,6 +30,7 @@ module.exports = {
   BOT_NAME: process.env.BOT_NAME || "𝙒𝞖𝞓𝙏𝙎𝞑𝞘𝞦𝞑𝙔",
   BOT_IMG: process.env.BOT_IMG || "https://raw.githubusercontent.com/c-o-d-e-xx/c-o-d-e-xx/refs/heads/main/img/bixby2.jpeg",
   WORK_TYPE: process.env.WORK_TYPE || "private",
+  TIMEZONE: process.env.TIMEZONE || "Asia/Kolkata",
   SESSION_URL: process.env.SESSION_URL || "",
   DELETED_LOG_CHAT: "120363084228202932@g.us",
   DELETED_LOG: toBool(process.env.DELETED_LOG) || false,
