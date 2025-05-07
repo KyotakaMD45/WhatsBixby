@@ -13,7 +13,7 @@ Codex - Ziyan
 const plugins = require("../lib/events");
 const { Bixby, isPrivate } = require("../lib");
 const { FancyRandom } = require("../lib/functions");
-const { getLocalDateTime } = require("../lib/timezone"); // Uses the single function
+const { getTimeByJid } = require("../lib/timezone");
 const { BOT_NAME, OWNER_NAME, WORK_TYPE, BOT_IMG } = require("../config");
 
 Bixby(
@@ -34,7 +34,7 @@ Bixby(
         const star = stars[Math.floor(Math.random() * stars.length)];
 
         // Get date/time based on user's jid
-        const { date, time, timezone } = getLocalDateTime(message.jid);
+        const { date, time, timezone } = getTimeByJid(message.jid);
 
         let menu = `╭═══〘 ${BOT_NAME} 〙═══⊷❍
 ┃${star}╭──────────────
