@@ -43,7 +43,7 @@ Description: ${i.desc}\`\`\``;
 ┃${star}│ time : ${time}
 |${star}| date : ${date}
 ┃${star}│ owner : ${OWNER_NAME}
-┃${star}│ user : ${message.jid}
+┃${star}│ user : ${message.pushName}
 ┃${star}│ mode : ${WORK_TYPE}
 ┃${star}│ server : null
 ┃${star}│ available ram: 10GB
