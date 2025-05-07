@@ -12,8 +12,7 @@ Codex - Ziyan
 
 const plugins = require("../lib/events");
 const { Bixby, isPrivate } = require("../lib");
-const { FancyRandom } = require("../lib/functions");
-const { getTimeByJid } = require("../lib/timezone");
+const { FancyRandom, getTimeByJid } = require("../lib/functions");
 const { BOT_NAME, OWNER_NAME, WORK_TYPE, BOT_IMG } = require("../config");
 
 Bixby(
