@@ -82,6 +82,7 @@ Bixby(
     type: "user",
   },
   async (message, match) => {
+    match = match || message.reply_message.text
     if (!match) return await message.sendMessage(message.jid, "_Need a plugin name_");
 
     var plugin = await PluginDB.findOne({ name: match });
