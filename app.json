@@ -5,7 +5,11 @@
 	"website": "https://small-sharp-tool.com/",
 	"logo": "https://avatars.githubusercontent.com/u/100409086?v=4",
 	"keywords": ["multi-device","WhatsApp Bot"],
-	"env": { 
+	"env": {
+    "MONGODB_URI": {
+    "description": "mongodb url from mongodb",
+    "required": true
+    },
     "ANTI_LINK": {
       "description": "true/false",
       "required": false

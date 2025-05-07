@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://www.instagram.com/__ziyxn_/"><img src="https://github.com/c-o-d-e-xx/c-o-d-e-xx/blob/main/assets/bixby5.jpeg" width="500" alt="Profile"/> </a>
+  <a href="https://www.instagram.com/__ziyxn_/"> <img src="https://github.com/c-o-d-e-xx/c-o-d-e-xx/blob/main/img/bixby1.jpeg" width="500" alt="Profile"/> </a>
 </p>
 
 <p align="center">
@@ -23,7 +23,7 @@ WhatsBixby is a WhatsApp bot that enables various features. It's built using Jav
 
 ### Scan Qr
 
-[![QR CODE](https://img.shields.io/badge/Scan_qr_code-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=black&color=black)](https://dxmods.xyz/qr-code)
+[![QR CODE](https://img.shields.io/badge/Scan_qr_code-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=black&color=black)](https://codexnet.xyz/qr-code)
 
 ### Deploy
 

@@ -1,5 +1,6 @@
 const { Bixby, isPrivate } = require("../lib/");
 const { BASE_URL, API_KEY } = require("../config");
+const { EncodeInput } = require("../lib/functions");
 const axios = require('axios')
 
 Bixby(

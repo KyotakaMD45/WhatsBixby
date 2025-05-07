@@ -3,6 +3,20 @@
   "version": "2.0.0",
   "description": "Advanced WhatsApp Bot",
   "main": "index.js",
+  "author": "Codex",
+  "license": "MIT",
+  "keywords": [
+    "bot",
+    "whatsapp"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/c-o-d-e-xx/WhatsBixby.git"
+  },
+  "homepage": "https://github.com/c-o-d-e-xx/WhatsBixby#readme",
+  "bugs": {
+    "url": "https://github.com/c-o-d-e-xx/WhatsBixby/issues"
+  },
   "engines": {
     "node": "22.15.0",
     "npm": "10.9.2"
@@ -22,9 +36,13 @@
     "@google/generative-ai": "^0.5.0",
     "@hapi/boom": "^10.0.1",
     "@neeraj-x0/nodetoolkit": "^1.0.3",
-    "baileys": "6.7.16",
+    "@vitalets/google-translate-api": "^9.2.0",
+    "@xaviabot/fb-downloader": "^1.0.14",
     "acrcloud": "^1.4.0",
+    "archiver": "^7.0.1",
     "axios": "^1.6.2",
+    "axios-retry": "^3.8.0",
+    "baileys": "6.7.16",
     "bitly": "7.1.2",
     "browser-id3-writer": "^4.4.0",
     "dotenv": "^16.4.5",
@@ -39,6 +57,7 @@
     "jsdom": "^22.1.0",
     "jsqr": "^1.4.0",
     "jszip": "^3.10.1",
+    "mongoose": "^8.9.5",
     "node-cron": "^3.0.3",
     "node-webpmux": "^3.1.7",
     "open-sans-fontface": "^1.4.0",
@@ -54,30 +73,11 @@
     "say": "^0.16.0",
     "sequelize": "^6.37.1",
     "simple-git": "^3.24.0",
-    "mongoose": "^8.9.5",
     "socket.io-client": "^4.7.5",
     "spotifydl-core": "^0.2.0",
     "sqlite3": "^5.1.7",
+    "stream-buffers": "3.0.2",
     "x-asena": "^1.0.1",
-    "ytsr": "^3.8.4",
-    "@vitalets/google-translate-api": "^9.2.0",
-    "@xaviabot/fb-downloader": "^1.0.14",
-    "archiver": "^7.0.1",
-    "axios-retry": "^3.8.0",
-    "stream-buffers": "3.0.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/c-o-d-e-xx/WhatsBixby.git"
-  },
-  "keywords": [
-    "bot",
-    "whatsapp"
-  ],
-  "author": "Codex",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/c-o-d-e-xx/WhatsBixby/issues"
-  },
-  "homepage": "https://github.com/c-o-d-e-xx/WhatsBixby#readme"
+    "ytsr": "^3.8.4"
+  }
 }
