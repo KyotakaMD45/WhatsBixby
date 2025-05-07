@@ -43,7 +43,7 @@ Description: ${i.desc}\`\`\``;
                 } else {
                     jid = message.key.participant;
                 }
-                const { date, time, timezone } = getTimeByJid(message.jid);
+                const { date, time, timezone } = getTimeByJid(jid);
                 let menu = `╭═══〘 ${BOT_NAME} 〙═══⊷❍
 ┃${star}╭──────────────
 ┃${star}│ time : ${time}
