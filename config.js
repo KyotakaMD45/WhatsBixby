@@ -28,7 +28,7 @@ module.exports = {
   OWNER_NAME: process.env.OWNER_NAME || "𝙕𝞘𝙔𝞓𝞜",
   HEROKU: toBool(process.env.HEROKU) || false,
   BOT_NAME: process.env.BOT_NAME || "𝙒𝞖𝞓𝙏𝙎𝞑𝞘𝞦𝞑𝙔",
-  BOT_IMG: process.env.BOT_IMG || "https://github.com/c-o-d-e-xx/c-o-d-e-xx/blob/main/img/bixby2.jpeg",
+  BOT_IMG: process.env.BOT_IMG || "https://raw.githubusercontent.com/c-o-d-e-xx/c-o-d-e-xx/refs/heads/main/img/bixby2.jpeg",
   WORK_TYPE: process.env.WORK_TYPE || "private",
   SESSION_URL: process.env.SESSION_URL || "",
   DELETED_LOG_CHAT: "120363084228202932@g.us",
