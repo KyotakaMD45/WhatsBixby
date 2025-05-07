@@ -1,8 +1,6 @@
 const { Bixby, sleep } = require("../lib");
+const { installPlugin, removePlugin, PluginDB } = require("../lib/db/plugins");
 const axios = require("axios");
-const fs = require("fs");
-const path = require("path");
-const { PluginDB, installPlugin } = require("../lib/db/plugins");
 
 Bixby(
   {
@@ -12,14 +10,15 @@ Bixby(
     type: "user",
   },
   async (message, match) => {
-    if (!match) return await message.sendMessage(message.jid, "_Send a plugin url_");
+    if (!match) return await message.sendMessage(message.jid, "_Send a plugin URL_");
 
+    let url;
     try {
-      var url = new URL(match);
-    } catch (e) {
-      console.log(e);
-      return await message.sendMessage(message.jid, "_Invalid Url_");
+      url = new URL(match);
+    } catch {
+      return await message.sendMessage(message.jid, "_Invalid URL_");
     }
+
     if (url.host === "gist.github.com") {
       url.host = "gist.githubusercontent.com";
       url = url.toString() + "/raw";
@@ -27,50 +26,39 @@ Bixby(
       url = url.toString();
     }
 
-    var plugin_name;
     try {
-      const { data, status } = await axios.get(url);
-      if (status === 200) {
-        var comand = data.match(/(?<=pattern:) ["'](.*?)["']/);
-        plugin_name = comand[0].replace(/["']/g, "").trim().split(" ")[0];
-        if (!plugin_name) {
-          plugin_name = "__" + Math.random().toString(36).substring(8);
-        }
+      const { data } = await axios.get(url);
+      const commandMatch = data.match(/(?<=pattern:) ["'](.*?)["']/);
+      let pluginName = commandMatch ? commandMatch[1].split(" ")[0] : "__" + Math.random().toString(36).substring(7);
 
-        const pluginPath = path.join(__dirname, `${plugin_name}.js`);
-        fs.writeFileSync(pluginPath, data);
-
-        try {
-          require(pluginPath);
-        } catch (e) {
-          fs.unlinkSync(pluginPath);
-          return await message.sendMessage(message.jid, "Invalid Plugin\n ```" + e + "```");
-        }
-
-        await installPlugin(url, plugin_name);
-
-        await message.sendMessage(message.jid, `_New plugin installed : ${plugin_name}_`);
+      const success = await installPlugin(url, pluginName);
+      if (!success) {
+        return await message.sendMessage(message.jid, "_Plugin already installed_");
       }
-    } catch (error) {
-      console.error(error);
-      return await message.sendMessage(message.jid, "Failed to fetch plugin");
+
+      return await message.sendMessage(message.jid, `_Plugin installed: ${pluginName}_`);
+    } catch (err) {
+      console.error(err);
+      return await message.sendMessage(message.jid, "Failed to install plugin:\n```" + err + "```");
     }
   }
 );
 
 Bixby(
-  { pattern: "plugin", fromMe: true, desc: "plugin list", type: "user" },
-  async (message, match) => {
-    var mesaj = "";
-    var plugins = await PluginDB.find();
-    if (plugins.length < 1) {
+  {
+    pattern: "plugin",
+    fromMe: true,
+    desc: "List installed plugins",
+    type: "user",
+  },
+  async (message) => {
+    const plugins = await PluginDB.find();
+    if (!plugins.length) {
       return await message.sendMessage(message.jid, "_No external plugins installed_");
-    } else {
-      plugins.map((plugin) => {
-        mesaj += "```" + plugin.name + "```: " + plugin.url + "\n";
-      });
-      return await message.sendMessage(message.jid, mesaj);
     }
+
+    const list = plugins.map(p => `\`${p.name}\`: ${p.url}`).join("\n");
+    return await message.sendMessage(message.jid, list);
   }
 );
 
@@ -82,21 +70,17 @@ Bixby(
     type: "user",
   },
   async (message, match) => {
-    match = match || message.reply_message.text
-    if (!match) return await message.sendMessage(message.jid, "_Need a plugin name_");
+    match = match || message.reply_message?.text;
+    if (!match) return await message.sendMessage(message.jid, "_Provide plugin name to remove_");
 
-    var plugin = await PluginDB.findOne({ name: match });
-
-    if (!plugin) {
+    const removed = await removePlugin(match);
+    if (!removed) {
       return await message.sendMessage(message.jid, "_Plugin not found_");
-    } else {
-      await PluginDB.deleteOne({ name: match });
-      delete require.cache[require.resolve(path.join(__dirname, `${match}.js`))];
-      fs.unlinkSync(path.join(__dirname, `${match}.js`));
-      await message.sendMessage(message.jid, `Plugin ${match} deleted`);
-      await message.sendMessage(message.jid, `_Restarting..._`);
-      sleep(500);
-      return process.send("reset");
     }
+
+    await message.sendMessage(message.jid, `Plugin \`${match}\` removed`);
+    await message.sendMessage(message.jid, "_Restarting..._");
+    await sleep(500);
+    return process.send("reset");
   }
 );
