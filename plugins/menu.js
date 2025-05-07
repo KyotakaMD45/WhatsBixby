@@ -7,7 +7,7 @@ Codex - Ziyan
 const plugins = require("../lib/events");
 const { Bixby, isPrivate, clockString } = require("../lib");
 const { FancyRandom } = require("../lib/functions")
-const { BOT_NAME, OWNER_NAME, WORK_TYPE, BOT_IMG } = require("../config");
+const { BOT_NAME, OWNER_NAME, WORK_TYPE, BOT_IMG, TIMEZONE } = require("../config");
 
 
 Bixby(
@@ -37,7 +37,7 @@ Description: ${i.desc}\`\`\``;
         let { prefix } = message;
         const stars = ['☼︎','★','✦','✬','⁂','✢','✣','✥','✲','⌤','⇵','⟺','⍩','∞','⍙','⌭','⌮','〶','㊋'];
         const star = stars[Math.floor(Math.random()*stars.length)];
-          let [date, time] = new Date().toLocaleString("en-IN", { timeZone: config.TIMEZONE }).split(",");
+          let [date, time] = new Date().toLocaleString("en-IN", { timeZone: TIMEZONE }).split(",");
         let menu = `╭═══〘 ${BOT_NAME} 〙═══⊷❍
 ┃${star}╭──────────────
 ┃${star}│ time : ${time}
