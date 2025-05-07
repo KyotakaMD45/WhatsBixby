@@ -4,58 +4,102 @@ you may not use this file except in compliance with the License.
 Codex - Ziyan
 */
 
-/* Copyright (C) 2025 Codex.
-Licensed under the MIT License;
-you may not use this file except in compliance with the License.
-Codex - Ziyan
-*/
-
 const plugins = require("../lib/events");
-const { Bixby, isPrivate } = require("../lib");
-const { FancyRandom, getTimeByJid } = require("../lib/functions");
+const { Bixby, isPrivate, clockString } = require("../lib");
+const { FancyRandom, getTimeByJid } = require("../lib/functions")
 const { BOT_NAME, OWNER_NAME, WORK_TYPE, BOT_IMG } = require("../config");
+
 
 Bixby(
   {
     pattern: "menu",
-    fromMe: isPrivate,
+    fromMe: isPrivate,  
     desc: "Show All commands",
     dontAddCommandList: true,
-    type: "user",
+    type:"user",
   },
   async (message, match) => {
-    try {
+    try{
       if (match) {
-        // Handle matched command logic here if needed
+        for (let i of plugins.commands) {
+          if (
+            i.pattern instanceof RegExp &&
+            i.pattern.test(message.prefix + match)
+          ) {
+            const cmdNameMatch = i.pattern.toString().match(/\/(\w+)/);
+            const cmdName = cmdNameMatch ? cmdNameMatch[1] : "Unknown";
+            let mess = `\`\`\`Command: ${message.prefix}${cmdName}
+Description: ${i.desc}\`\`\``;
+            return await message.client.sendMessage(message.jid, {text: mess});
+          }
+        }
       } else {
-        const { prefix } = message;
+        let { prefix } = message;
         const stars = ['☼︎','★','✦','✬','⁂','✢','✣','✥','✲','⌤','⇵','⟺','⍩','∞','⍙','⌭','⌮','〶','㊋'];
-        const star = stars[Math.floor(Math.random() * stars.length)];
-
-        // Get date/time based on user's jid
-        const { date, time, timezone } = getTimeByJid(message.jid);
-
+        const star = stars[Math.floor(Math.random()*stars.length)];
+          const { date, time, timezone } = getTimeByJid(message.jid);
         let menu = `╭═══〘 ${BOT_NAME} 〙═══⊷❍
 ┃${star}╭──────────────
-┃${star}│ Time: ${time}
-┃${star}│ Date: ${date}
-┃${star}│ Timezone: ${timezone}
-┃${star}│ Owner: ${OWNER_NAME}
-┃${star}│ User: ${message.pushName}
-┃${star}│ Mode: ${WORK_TYPE}
-┃${star}│ Version: 2.0.1
+┃${star}│ time : ${time}
+|${star}| date : ${date}
+┃${star}│ owner : ${OWNER_NAME}
+┃${star}│ user : ${message.pushName}
+┃${star}│ mode : ${WORK_TYPE}
+┃${star}│ server : null
+┃${star}│ available ram: 10GB
+┃${star}│ version: 2.0.1
+┃${star}│
 ┃${star}│
 ┃${star}│  ▎▍▌▌▉▏▎▌▉▐▏▌▎
+┃${star}│  ▎▍▌▌▉▏▎▌▉▐▏▌▎
 ┃${star}│  ${BOT_NAME}
+┃${star}│ 
 ┃${star}╰───────────────
 ╰══════════════════⊷❍`;
+        let cmnd = [];
+        let cmd;
+        let category = [];
+        plugins.commands.map((command, num) => {
+          if (command.pattern) {
+            cmd = command.pattern
+              .toString()
+              .match(/(\W*)([A-Za-züşiğ öç1234567890]*)/)[2];
+          }
 
+          if (!command.dontAddCommandList && cmd !== undefined) {
+            let type;
+            if (!command.type) {
+              type = "misc";
+            } else {
+              type = command.type.toLowerCase();
+            }
+
+            cmnd.push({ cmd, type: type });
+
+            if (!category.includes(type)) category.push(type);
+          }
+        });
+        cmnd.sort();
+        category.sort().forEach((cmmd) => {
+          menu += `
+╭════〘 ${cmmd} 〙════⊷❍\n┃${star}╭─────────────────
+┃${star}│ `;
+          let comad = cmnd.filter(({ type }) => type == cmmd);
+          comad.forEach(({ cmd }, num) => {
+            menu += `\n┃${star}│ ${cmd.trim()}`;
+          });
+          menu += `\n┃${star}╰─────────────────
+╰══════════════════⊷❍`;
+        });
+
+        menu += `\n`;
+        let fin = menu.toUpperCase();
         const randomFont = FancyRandom();
-        await message.client.sendMessage(
+        return await message.client.sendMessage(
           message.jid,
           {
             image: { url: BOT_IMG },
-            caption: randomFont(menu.toUpperCase()),
+            caption: randomFont(fin)
           },
           { quoted: message }
         );
@@ -65,7 +109,6 @@ Bixby(
     }
   }
 );
-
 
 Bixby(
   {
