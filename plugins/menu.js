@@ -39,9 +39,9 @@ Description: ${i.desc}\`\`\``;
                 const star = stars[Math.floor(Math.random()*stars.length)];
                 let jid;
                 if (message.isGroup) {
-                    jid = message.jid;
-                } else {
                     jid = message.key.participant;
+                } else {
+                    jid = message.jid;
                 }
                 const { date, time, timezone } = getTimeByJid(jid);
                 let menu = `╭═══〘 ${BOT_NAME} 〙═══⊷❍
