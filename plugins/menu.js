@@ -37,12 +37,11 @@ Description: ${i.desc}\`\`\``;
         let { prefix } = message;
         const stars = ['☼︎','★','✦','✬','⁂','✢','✣','✥','✲','⌤','⇵','⟺','⍩','∞','⍙','⌭','⌮','〶','㊋'];
         const star = stars[Math.floor(Math.random()*stars.length)];
-        let [date, time] = new Date()
-          .toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })
-          .split(",");
+          let [date, time] = new Date().toLocaleString("en-IN", { timeZone: config.TIMEZONE }).split(",");
         let menu = `╭═══〘 ${BOT_NAME} 〙═══⊷❍
 ┃${star}╭──────────────
-┃${star}│
+┃${star}│ time : ${time}
+|${star}| date : ${date}
 ┃${star}│ owner : ${OWNER_NAME}
 ┃${star}│ user : ${message.pushName}
 ┃${star}│ mode : ${WORK_TYPE}
