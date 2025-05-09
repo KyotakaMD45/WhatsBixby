@@ -63,7 +63,7 @@ Bixby(
 
     filters.forEach(async (filter) => {
       const pattern = new RegExp(filter.regex ? filter.pattern : `\\b(${filter.pattern})\\b`, "gm");
-      if (pattern.test(match)) {
+      if (pattern.test(message.text)) {
         await message.reply(filter.text, { quoted: message });
       }
     });
