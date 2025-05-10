@@ -30,9 +30,8 @@ Bixby(
     try {
       if (!message.reply_message?.image) {
         return await message.reply("_Reply to a photo_");
-      }
-      
-      const buff = await m.quoted.download();
+      }     
+     let buff = await m.quoted.download();
       await message.SetFullPP(message.user, buff);
       
       return await message.reply("_✅ Profile Picture Updated_");
