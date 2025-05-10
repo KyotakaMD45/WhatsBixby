@@ -16,7 +16,7 @@ Bixby(
 
     try {
       const response = await axios.get(`${BASE_URL}info/pincode?pincode=${EncodeInput(match)}&apikey=${API_KEY}`);
-      const pincodeimg = "https://graph.org/file/31817366c5e2557a595d9.jpg";
+      const pincodeimg = "https://github.com/c-o-d-e-xx/c-o-d-e-xx/blob/main/img/pincode.jpg?raw=true";
       const data = response.data.result;
 
       let postdata = "No pincode data found"; // Default value
