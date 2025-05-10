@@ -10,28 +10,32 @@ Bixby(
     type: "group",
   },
   async (message, match) => {
-    let text, msg;
     try {
-      [text, msg] = match.split(":");
-    } catch {}
-
-    if (!match) {
-      const filters = await getFilter(message.jid);
-      if (!filters) {
-        return await message.reply("No filters are currently set in this chat.");
+      if (!match) {
+        const filters = await getFilter(message.jid);
+        if (!filters || filters.length === 0) {
+          return await message.reply("No filters are currently set in this chat.");
+        }
+        
+        const response = [
+          "Your active filters for this chat:\n",
+          ...filters.map(filter => `✒ ${filter.pattern}`),
+          "\nUse: .filter keyword:message to set a filter"
+        ].join("\n");
+        
+        return await message.reply(response);
       }
-      let response = "Your active filters for this chat:\n\n";
-      filters.forEach((filter) => (response += `✒ ${filter.pattern}\n`));
-      response += "Use: .filter keyword:message to set a filter";
-      return await message.reply(response);
-    }
 
-    if (!text || !msg) {
-      return await message.reply("```use : .filter keyword:message\nto set a filter```");
+      const [text, msg] = match.split(":");
+      if (!text || !msg) {
+        return await message.reply("```use : .filter keyword:message\nto set a filter```");
+      }
+      await setFilter(message.jid, text, msg, true);
+      return await message.reply(`_Successfully set filter for ${text}_`);
+    } catch (error) {
+      console.error("Filter command error:", error);
+      await message.reply("An error occurred while processing your request.");
     }
-
-    await setFilter(message.jid, text, msg, true);
-    return await message.reply(`_Successfully set filter for ${text}_`);
   }
 );
 
@@ -44,50 +48,51 @@ Bixby(
     type: "group",
   },
   async (message, match) => {
-    if (!match) return await message.reply("\n*Example:* ```.stop hello```");
+    try {
+      if (!match) {
+        return await message.reply("\n*Example:* ```.stop hello```");
+      }
 
-    const deleted = await deleteFilter(message.jid, match);
-    if (deleted) {
-      await message.reply(`_Filter ${match} deleted_`);
-    } else {
-      await message.reply("No existing filter matches the provided input.");
+      const deleted = await deleteFilter(message.jid, match);
+      if (deleted) {
+        await message.reply(`_Filter ${match} deleted_`);
+      } else {
+        await message.reply("No existing filter matches the provided input.");
+      }
+    } catch (error) {
+      console.error("Stop command error:", error);
+      await message.reply("An error occurred while deleting the filter.");
     }
   }
 );
 
 Bixby(
-  { on: "text", fromMe: false, dontAddCommandList: true },
+  { 
+    on: "text", 
+    fromMe: false 
+  }, 
   async (message, match) => {
-    const filters = await getFilter(message.jid);
-    if (!filters) return;
+    try {
+      const filters = await getFilter(message.jid);
+      if (!filters) return;
 
-    filters.forEach(async (filter) => {
-      const pattern = new RegExp(filter.regex ? filter.pattern : `\\b(${filter.pattern})\\b`, "gm");
-      if (pattern.test(match)) {
-        await message.reply(filter.text, { quoted: message });
+      for (const filter of filters) {
+        const rawPattern = filter.dataValues.pattern.trim();
+        const isRegex = filter.dataValues.regex;
+        
+        const pattern = new RegExp(
+          isRegex
+            ? rawPattern
+            : `\\b(${rawPattern.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})\\b`,
+          "gm"
+        );
+
+        if (pattern.test(match)) {
+          await message.reply(filter.dataValues.text, { quoted: message });
+        }
       }
-    });
+    } catch (error) {
+      console.error("Filter trigger error:", error);
+    }
   }
 );
-/*
-Bixby(
-  { on: "text", fromMe: false, dontAddCommandList: true },
-  async (message, match) => {
-    var filtreler = await getFilter(message.jid);
-    if (!filtreler) return;
-    filtreler.map(async (filter) => {
-      pattern = new RegExp(
-        filter.dataValues.regex
-          ? filter.dataValues.pattern
-          : "\\b(" + filter.dataValues.pattern + ")\\b",
-        "gm"
-      );
-      if (pattern.test(match)) {
-      return  await message.reply(filter.dataValues.text, {
-          quoted: message,
-        });
-      }
-    });
-  }
-);
-*/
